@@ -1,11 +1,8 @@
 const express = require("express");
 const user = require("../models/user");
-const bcrypt = require("bcrypt-nodejs");
 const router = express.Router();
 const { encode, compare } = require("../auth/pwd");
-const jwt = require("jsonwebtoken");
-const JWT_SECRET = "coucou";
-const { checkToken } = require("../auth/jwt");
+const { checkToken, createToken } = require("../auth/jwt");
 
 router.post("/register", (req, res) => {
   const { lastname, firstname, email, password } = req.body;
@@ -31,21 +28,10 @@ router.post("/login", (req, res) => {
     .getUserByEmail({ email })
     .then(user => {
       if (!user)
-        return res.status("401").json({ error: "Utilisateur introuvable" });
+        return res.status(401).json({ error: "Utilisateur introuvable" });
 
       return compare(password, user.password).then(isPasswordOk => {
-        if (isPasswordOk) {
-          const { id, firstname, lastname, email, role } = user;
-          const token = `bearer ${jwt.sign(
-            { id, firstname, lastname, email, role },
-            JWT_SECRET,
-            { expiresIn: 60 * 60 * 3 }
-          )}`;
-          return res.json({ token, user: { id, firstname, lastname } });
-        } else {
-          // Password doesn't match password in DB
-          return res.status("401").json({ error: "Mauvais mot de passe" });
-        }
+        createToken(isPasswordOk);
       });
     })
     .catch(err => res.json(err));
