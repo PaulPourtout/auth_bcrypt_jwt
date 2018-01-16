@@ -5,6 +5,7 @@ const router = express.Router();
 const { encode, compare } = require("../auth/pwd");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = "coucou";
+const { checkToken } = require("../auth/jwt");
 
 router.post("/register", (req, res) => {
   const { lastname, firstname, email, password } = req.body;
@@ -35,13 +36,11 @@ router.post("/login", (req, res) => {
       return compare(password, user.password).then(isPasswordOk => {
         if (isPasswordOk) {
           const { id, firstname, lastname, email, role } = user;
-          const token = jwt.sign(
+          const token = `bearer ${jwt.sign(
             { id, firstname, lastname, email, role },
             JWT_SECRET,
-            {
-              expiresIn: 60 * 60 * 3
-            }
-          );
+            { expiresIn: 60 * 60 * 3 }
+          )}`;
           return res.json({ token, user: { id, firstname, lastname } });
         } else {
           // Password doesn't match password in DB

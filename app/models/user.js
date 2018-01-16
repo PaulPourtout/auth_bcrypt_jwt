@@ -23,6 +23,14 @@ module.exports = {
           result.rows && result.rows.length > 0 ? result.rows[0] : false
       );
   },
+  getUserById(id) {
+    return db
+      .query(`SELECT * FROM users WHERE id=${id}`)
+      .then(
+        result =>
+          result.rows && result.rows.length > 0 ? result.rows[0] : false
+      );
+  },
   notExist(email) {
     return db
       .query(`SELECT * FROM users WHERE email='${email}'`)
