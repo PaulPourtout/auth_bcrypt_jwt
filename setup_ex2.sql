@@ -47,14 +47,14 @@ CREATE TABLE users
 INSERT INTO users
   (firstname, lastname, email, password, role)
 VALUES
-  ('David', 'Ostermann', 'do@mail.com', 'psd', 'admin'),
-  ('Faustino', 'Kialungila', 'fk@mail.com', 'psd', 'admin'),
-  ('Paljor', 'Tsang', 'pt@mail.com', 'psd', 'user'),
-  ('Gaelle', 'Meric', 'gm@mail.com', 'psd', 'user'),
-  ('Joffrey', 'Gitau', 'jg@mail.com', 'psd', 'user'),
-  ('Mehdi', 'Druon', 'md@mail.com', 'psd', 'user'),
-  ('Martin', 'Eon', 'me@mail.com', 'psd', 'user'),
-  ('Julien', 'Grach', 'jgr@mail.com', 'psd', 'user');
+  ('David', 'Ostermann', 'do@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'admin'),
+  ('Faustino', 'Kialungila', 'fk@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'admin'),
+  ('Paljor', 'Tsang', 'pt@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'user'),
+  ('Gaelle', 'Meric', 'gm@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'user'),
+  ('Joffrey', 'Gitau', 'jg@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'user'),
+  ('Mehdi', 'Druon', 'md@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'user'),
+  ('Martin', 'Eon', 'me@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'user'),
+  ('Julien', 'Grach', 'jgr@mail.com', '$2a$10$9jbwh3LEloel5xF0hq7syemjBOiLQmkWbTLxpIlcHUo4kIvY8qBr2', 'user');
 
 CREATE TABLE users_cards_lists
 (
