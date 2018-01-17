@@ -1,6 +1,7 @@
 const express = require("express");
 const model = require("../models/user");
-const { checkToken, isAdmin } = require("../auth/jwt");
+const { checkToken } = require("../auth/jwt");
+const { isAdmin } = require("../auth/authorizations");
 
 module.exports = express
   .Router()

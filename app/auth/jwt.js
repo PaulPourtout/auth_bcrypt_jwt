@@ -31,17 +31,8 @@ exports.checkToken = (req, res, next) => {
   });
 };
 
-// Middleware to check if user is admin
-exports.isAdmin = (req, res, next) => {
-  req.user.role == "admin"
-    ? next()
-    : res
-        .status(401)
-        .json({ error: "Vous n'avez pas les doits pour consulter cette page" });
-};
-
 // Create Token if req password ok
-exports.createToken = isPasswordOk => {
+exports.createToken = (isPasswordOk, user) => {
   if (isPasswordOk) {
     const { id, firstname, lastname, email, role } = user;
     const token = `bearer ${jwt.sign(
@@ -49,7 +40,7 @@ exports.createToken = isPasswordOk => {
       JWT_SECRET,
       { expiresIn: 60 * 60 * 3 }
     )}`;
-    return res.json({ token, user: { id, firstname, lastname } });
+    return { token, user: { id, firstname, lastname } };
   } else {
     // Password doesn't match password in DB
     return res.status(401).json({ error: "Mauvais mot de passe" });

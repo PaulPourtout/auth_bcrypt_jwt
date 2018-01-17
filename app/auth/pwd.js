@@ -30,8 +30,7 @@ exports.compare = (pwd, hashedPwd) => {
 
   return new Promise((resolve, reject) => {
     bcrypt.compare(pwd, hashedPwd, (err, bool) => {
-      if (err) return reject(err);
-
+      if (err) return reject("oups ! error: ", err);
       resolve(bool);
     });
   });
