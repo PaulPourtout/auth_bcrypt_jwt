@@ -29,7 +29,6 @@ export default class RegisterForm extends Component {
       this.state.password,
       this.state.passwordCheck
     );
-    console.log("nonEmptyFields", nonEmptyFields, "pass", passwords);
     if (nonEmptyFields && passwords) {
       this.setState({ disableBtn: false });
     } else {
@@ -53,7 +52,6 @@ export default class RegisterForm extends Component {
   };
 
   checkPassword = (password, passwordCheck) => {
-    console.log("pass", password, "check", passwordCheck);
     if (password === passwordCheck) return true;
     else return false;
   };
@@ -61,10 +59,8 @@ export default class RegisterForm extends Component {
   handleRegister = e => {
     e.preventDefault();
     const { firstname, lastname, email, password } = this.state;
-    console.log("submit", this.state);
-    fetch("http://localhost:3000/auth/login", {
+    fetch("http://localhost:3000/auth/register", {
       method: "POST",
-      credentials: "same-origin",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -74,10 +70,9 @@ export default class RegisterForm extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <main className="App">
-        <form action="">
+        <form className="form">
           <label htmlFor="firstname">First name :</label>
           <input
             type="firstname"
@@ -124,7 +119,7 @@ export default class RegisterForm extends Component {
               backgroundColor: this.state.disableBtn ? "#9C9C9C" : "#BADA55"
             }}
             disabled={this.state.disableBtn}
-            onClick={this.state.disableBtn ? null : this.handleLogin}
+            onClick={this.handleRegister}
           >
             Register
           </button>

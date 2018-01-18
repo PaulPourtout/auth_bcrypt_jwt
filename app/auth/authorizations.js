@@ -2,7 +2,11 @@
 exports.isAdmin = (req, res, next) => {
   req.user.role == "admin"
     ? next()
-    : res
-        .status(401)
-        .json({ error: "Vous n'avez pas les doits pour consulter cette page" });
+    : res.status(401).json({ error: "Not admin" });
+};
+
+exports.isOwnAccount = (req, res, next) => {
+  req.user.id == req.params.id
+    ? next()
+    : res.status(401).json({ error: "You're not authorized" });
 };

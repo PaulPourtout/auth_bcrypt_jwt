@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import "../App.css";
+import AuthService from "./AuthService";
 
 export default class LoginForm extends Component {
   state = {
     email: "",
     password: ""
   };
+
+  Auth = new AuthService();
 
   updateInput = e => {
     const newState = {};
@@ -15,17 +18,11 @@ export default class LoginForm extends Component {
 
   handleLogin = e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    console.log("submit", this.state);
-    fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, password })
-    }).then(res => console.log(res));
+    this.Auth.login(this.state.email, this.state.password)
+      .then(res => {
+        this.props.history.replace("/");
+      })
+      .catch(err => alert(err));
   };
 
   render() {
@@ -48,11 +45,11 @@ export default class LoginForm extends Component {
             onChange={this.updateInput}
             value={this.state.password}
           />
-          <button onClick={this.handleLogin}>Login</button>
+          <button className="confirmBtn" onClick={this.handleLogin}>
+            Login
+          </button>
         </form>
       </main>
     );
   }
 }
-
-// export default LoginForm;

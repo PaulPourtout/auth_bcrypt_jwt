@@ -1,11 +1,11 @@
 const express = require("express");
 const model = require("../models/user");
 const { checkToken } = require("../auth/jwt");
-const { isAdmin } = require("../auth/authorizations");
+const { isAdmin, isOwnAccount } = require("../auth/authorizations");
 
 module.exports = express
   .Router()
-  .get("/", checkToken, isAdmin, (req, res) => {
+  .get("/", (req, res) => {
     model
       .getUsers()
       .then(result => res.json(result))
@@ -15,8 +15,16 @@ module.exports = express
     const { lastname, firstname } = req.body;
     model
       .createUser({ firstname, lastname })
-      .then(result => res.send(result))
-      .catch(err => console.log(err));
+      .then(result => res.json(result))
+      .catch(err => res.json(err));
+  })
+  .get("/:id", checkToken, isOwnAccount, (req, res) => {
+    const { id } = req.params;
+
+    model
+      .getUserById(id)
+      .then(result => res.json(result))
+      .catch(err => res.json(err));
   })
   /**
    * Move a card

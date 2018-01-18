@@ -5,7 +5,7 @@ const user = require("../models/user");
 
 const extractBearerToken = headerValue => {
   if (typeof headerValue == !"string") return false;
-  const matches = headerValue.match(/(bearer)\s+(\S+)/i);
+  const matches = headerValue.match(/(Bearer)\s+(\S+)/i);
   return matches && matches[2];
 };
 
@@ -15,9 +15,7 @@ exports.checkToken = (req, res, next) => {
     req.headers.authorization && extractBearerToken(req.headers.authorization);
 
   if (!token) {
-    return res
-      .status(403)
-      .json("Vous n'avez pas les droits pour consulter cette page");
+    return res.status(403).json("You must be logged in");
   }
   jwt.verify(token, JWT_SECRET, (err, decode) => {
     if (err) return res.status(403).json({ error: "Token non valide" });
@@ -35,11 +33,11 @@ exports.checkToken = (req, res, next) => {
 exports.createToken = (isPasswordOk, user) => {
   if (isPasswordOk) {
     const { id, firstname, lastname, email, role } = user;
-    const token = `bearer ${jwt.sign(
+    const token = jwt.sign(
       { id, firstname, lastname, email, role },
       JWT_SECRET,
       { expiresIn: 60 * 60 * 3 }
-    )}`;
+    );
     return { token, user: { id, firstname, lastname } };
   } else {
     // Password doesn't match password in DB
